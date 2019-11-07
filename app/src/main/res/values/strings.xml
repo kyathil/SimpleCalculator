@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">EmmasCalculator</string>
+    <string name="default_input">0</string>
+    <string name="cancel_button_text">C</string>
+    <string name="paranthesis_button_text">( )</string>
+    <string name="percentage_button_text">%</string>
+    <string name="division_button_text">/</string>
+    <string name="number_7_button_text">7</string>
+    <string name="number_8_button_tex">8</string>
+    <string name="number_9_button_tex">9</string>
+    <string name="multiplication_button_text">*</string>
+    <string name="number_4_button_tex">4</string>
+    <string name="number_5_button_tex">5</string>
+    <string name="number_6_button_tex">6</string>
+    <string name="minus_button_text">-</string>
+    <string name="number_1_button_tex">1</string>
+    <string name="number_2_button_tex">2</string>
+    <string name="number_3_button_tex">3</string>
+    <string name="addition_button_text">+</string>
+    <string name="negative_or_positive_button_text">+/-</string>
+    <string name="number_0_button_tex">0</string>
+    <string name="dot_button_text">.</string>
+    <string name="eqals_button_text">=</string>
+</resources>
