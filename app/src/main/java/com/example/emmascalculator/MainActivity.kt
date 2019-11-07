@@ -80,9 +80,32 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 inputNumber = ""
                 inputField.text = stringToShow
             }
+
             R.id.subtractionButton -> {
                 resultString.add(inputNumber)
                 resultString.add("-")
+                val stringToShow = StringBuilder()
+                for (element in resultString) {
+                    stringToShow.append(element)
+                }
+                inputNumber = ""
+                inputField.text = stringToShow
+            }
+
+            R.id.multiplicationButton -> {
+                resultString.add(inputNumber)
+                resultString.add("*")
+                val stringToShow = StringBuilder()
+                for (element in resultString) {
+                    stringToShow.append(element)
+                }
+                inputNumber = ""
+                inputField.text = stringToShow
+            }
+
+            R.id.divisionButton -> {
+                resultString.add(inputNumber)
+                resultString.add("/")
                 val stringToShow = StringBuilder()
                 for (element in resultString) {
                     stringToShow.append(element)
@@ -119,6 +142,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         var secondNumber: Int
         var counter = 0
         var sum = listToCalculate[counter].toInt()
+        var division = 0.0
 
         while (counter < listToCalculate.size-1) {
             var dunnoWhatToCallThisSendHalp = listToCalculate[counter]
@@ -126,14 +150,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
             if (listToCalculate[counter].equals("+")){
                 secondNumber = listToCalculate[counter + 1].toInt()
-               // Log.d("tag", "checking plus")
                 sum = addition(sum, secondNumber)
-                //Log.d("sum", "Sum is $sum")
             } else if (listToCalculate[counter].equals("-")) {
                 secondNumber = listToCalculate[counter + 1].toInt()
-                Log.d("tag", "checking minus")
                 sum = subtraction(sum, secondNumber)
-                //Log.d("sum", "Sum is $sum")
+            } else if (listToCalculate[counter].equals("*")) {
+                secondNumber = listToCalculate[counter + 1].toInt()
+                sum = multiplication(sum, secondNumber)
+            } else if (listToCalculate[counter].equals("/")) {
+                secondNumber = listToCalculate[counter + 1].toInt()
+                division = division(sum, secondNumber)
+                // TODO like how I fix division :(
             } else {
 
             }
@@ -159,6 +186,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         number9!!.setOnClickListener(this)
         additionButton!!.setOnClickListener(this)
         subtractionButton!!.setOnClickListener(this)
+        multiplicationButton!!.setOnClickListener(this)
+        divisionButton!!.setOnClickListener(this)
         equalsButton!!.setOnClickListener(this)
         clearButton!!.setOnClickListener(this)
     }
