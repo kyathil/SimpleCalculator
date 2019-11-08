@@ -128,10 +128,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         inputField.text = stringToShow
     }
 
+    //TODO so much refactoring
     private fun calculate(listToCalculate: ArrayList<String>): String{
         var secondNumber: Int
         var counter = 0
-        var sumOfCalculations = listToCalculate[counter].toInt()
+        var sumOfCalculations = listToCalculate[counter]
         var division = 0.0
 
         while (counter < listToCalculate.size-1) {
@@ -139,18 +140,38 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             //Log.d("tag", listToCalculate[counter])
 
             if (currentCharacter == "+"){
-                secondNumber = listToCalculate[counter + 1].toInt()
-                sumOfCalculations = addition(sumOfCalculations, secondNumber)
+
+                if (sumOfCalculations.contains('.')) {
+                    secondNumber = listToCalculate[counter + 1].toInt()
+                    sumOfCalculations = addition(sumOfCalculations.toDouble(), secondNumber).toString()
+                } else {
+                    secondNumber = listToCalculate[counter + 1].toInt()
+                    sumOfCalculations = addition(sumOfCalculations.toInt(), secondNumber).toString()
+                }
+
             } else if (currentCharacter == "-") {
-                secondNumber = listToCalculate[counter + 1].toInt()
-                sumOfCalculations = subtraction(sumOfCalculations, secondNumber)
+
+                if (sumOfCalculations.contains('.')) {
+                    secondNumber = listToCalculate[counter + 1].toInt()
+                    sumOfCalculations = subtraction(sumOfCalculations.toDouble(), secondNumber).toString()
+                } else {
+                    secondNumber = listToCalculate[counter + 1].toInt()
+                    sumOfCalculations = subtraction(sumOfCalculations.toInt(), secondNumber).toString()
+                }
+
             } else if (currentCharacter == "*") {
-                secondNumber = listToCalculate[counter + 1].toInt()
-                sumOfCalculations = multiplication(sumOfCalculations, secondNumber)
+
+                if (sumOfCalculations.contains('.')) {
+                    secondNumber = listToCalculate[counter + 1].toInt()
+                    sumOfCalculations = multiplication(sumOfCalculations.toDouble(), secondNumber).toString()
+                } else {
+                    secondNumber = listToCalculate[counter + 1].toInt()
+                    sumOfCalculations = multiplication(sumOfCalculations.toInt(), secondNumber).toString()
+                }
+
             } else if (currentCharacter == "/") {
                 secondNumber = listToCalculate[counter + 1].toInt()
-                division = division(sumOfCalculations, secondNumber)
-                // TODO like how I fix division :(
+                sumOfCalculations = division(sumOfCalculations.toInt(), secondNumber).toString()
             } else {
 
             }
@@ -190,11 +211,20 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         setOnClicks()
     }
 
+    //TODO make calculations in a separate, generic, class
     fun addition(a: Int, b: Int): Int {
         return a + b
     }
 
+    fun addition(a: Double, b: Int): Double {
+        return a + b
+    }
+
     fun subtraction(a: Int, b: Int): Int {
+        return a - b
+    }
+
+    fun subtraction(a: Double, b: Int): Double {
         return a - b
     }
 
@@ -203,6 +233,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     fun multiplication(a: Int, b: Int): Int {
+        return a * b
+    }
+
+    fun multiplication(a: Double, b: Int): Double {
         return a * b
     }
 
