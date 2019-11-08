@@ -2,9 +2,7 @@ package com.example.emmascalculator
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.StringBuilder
 
@@ -12,10 +10,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private var historyNumber: Int = 0
     private var currentNumber: Int = 0
-    private var sum: Int = 0
+    private var sum: String = "0"
     private val resultString = arrayListOf<String>()
     private var inputNumber: String = ""
 
+
+    /**
+     * You press a button -> Magic happens
+     */
     override fun onClick(v: View?) {
 
         when (v!!.id) {
@@ -73,93 +75,81 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             R.id.additionButton -> {
                 resultString.add(inputNumber)
                 resultString.add("+")
-                val stringToShow = StringBuilder()
-                for (element in resultString) {
-                    stringToShow.append(element)
-                }
-                inputNumber = ""
-                inputField.text = stringToShow
+                fixOutputtedText(resultString)
             }
 
             R.id.subtractionButton -> {
                 resultString.add(inputNumber)
                 resultString.add("-")
-                val stringToShow = StringBuilder()
-                for (element in resultString) {
-                    stringToShow.append(element)
-                }
-                inputNumber = ""
-                inputField.text = stringToShow
+                fixOutputtedText(resultString)
             }
 
             R.id.multiplicationButton -> {
                 resultString.add(inputNumber)
                 resultString.add("*")
-                val stringToShow = StringBuilder()
-                for (element in resultString) {
-                    stringToShow.append(element)
-                }
-                inputNumber = ""
-                inputField.text = stringToShow
+                fixOutputtedText(resultString)
             }
 
             R.id.divisionButton -> {
                 resultString.add(inputNumber)
                 resultString.add("/")
-                val stringToShow = StringBuilder()
-                for (element in resultString) {
-                    stringToShow.append(element)
-                }
-                inputNumber = ""
-                inputField.text = stringToShow
+                fixOutputtedText(resultString)
             }
 
             R.id.equalsButton -> {
                 resultString.add(inputNumber)
                 sum = calculate(resultString)
-                inputField.text = sum.toString()
-                resultString.clear()
-                resultString.add(sum.toString())
-                historyNumber = 0
-                currentNumber = 0
-                inputNumber = ""
-                //For now, after = is pressed you cannot continue calculate on the input
-                sum = 0
+                inputField.text = sum
+                clearNumbers()
             }
 
             R.id.clearButton -> {
-                sum = 0
-                resultString.clear()
-                currentNumber = 0
-                historyNumber = 0
-                inputNumber = ""
-                inputField.text = sum.toString()
+                clearNumbers()
+                inputField.text = sum
             }
         }
     }
 
-    private fun calculate(listToCalculate: ArrayList<String>): Int{
+    private fun clearNumbers(){
+        resultString.clear()
+        resultString.add(sum)
+        sum = "0"
+        currentNumber = 0
+        historyNumber = 0
+        inputNumber = ""
+    }
+
+    private fun fixOutputtedText(result: ArrayList<String>) {
+        val stringToShow = StringBuilder()
+        for (element in result) {
+            stringToShow.append(element)
+        }
+        inputNumber = ""
+        inputField.text = stringToShow
+    }
+
+    private fun calculate(listToCalculate: ArrayList<String>): String{
         var secondNumber: Int
         var counter = 0
-        var sum = listToCalculate[counter].toInt()
+        var sumOfCalculations = listToCalculate[counter].toInt()
         var division = 0.0
 
         while (counter < listToCalculate.size-1) {
-            var dunnoWhatToCallThisSendHalp = listToCalculate[counter]
+            val currentCharacter = listToCalculate[counter]
             //Log.d("tag", listToCalculate[counter])
 
-            if (listToCalculate[counter].equals("+")){
+            if (currentCharacter == "+"){
                 secondNumber = listToCalculate[counter + 1].toInt()
-                sum = addition(sum, secondNumber)
-            } else if (listToCalculate[counter].equals("-")) {
+                sumOfCalculations = addition(sumOfCalculations, secondNumber)
+            } else if (currentCharacter == "-") {
                 secondNumber = listToCalculate[counter + 1].toInt()
-                sum = subtraction(sum, secondNumber)
-            } else if (listToCalculate[counter].equals("*")) {
+                sumOfCalculations = subtraction(sumOfCalculations, secondNumber)
+            } else if (currentCharacter == "*") {
                 secondNumber = listToCalculate[counter + 1].toInt()
-                sum = multiplication(sum, secondNumber)
-            } else if (listToCalculate[counter].equals("/")) {
+                sumOfCalculations = multiplication(sumOfCalculations, secondNumber)
+            } else if (currentCharacter == "/") {
                 secondNumber = listToCalculate[counter + 1].toInt()
-                division = division(sum, secondNumber)
+                division = division(sumOfCalculations, secondNumber)
                 // TODO like how I fix division :(
             } else {
 
@@ -169,10 +159,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             counter++
         }
 
-        return sum
+        return sumOfCalculations.toString()
     }
 
-
+    /**
+     * All of them buttons need onClickListeners
+     */
     private fun setOnClicks() {
         number0!!.setOnClickListener(this)
         number1!!.setOnClickListener(this)
